@@ -32,7 +32,19 @@ app.post('/mailer', async (req, res) => {
             from: email,
             to: process.env.EMAIL_USER,
             subject: subject,
-            text: message,
+            // text: `${email}\n\nMessage: <p style="color:red;">${message}</p>`,
+            // html: `<p style="color:red;">${message}</p>`, // HTML content for better formatting
+             // create best html mail template
+            html: `
+                <div style="font-family: Arial, sans-serif; color: #333;">
+                    <h2 style="color: #4CAF50;">New Message from Portfolio</h2>
+                    <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Subject:</strong> ${subject}</p>
+                    <p><strong>Message:</strong></p>
+                    <div style="background-color: #f9f9f9; padding: 10px; border-radius: 5px;">
+                        <p>${message}</p>
+                    </div>
+                </div>`
         };
 
         await transporter.sendMail(mailOptions);
